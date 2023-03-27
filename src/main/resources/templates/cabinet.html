@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/cabinet.css}" type="text/css">
+    <title>User Cabinet</title>
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="/cabinet">Cabinet</a>
+    <a href="/applicants/new">New application</a>
+    <a href="/applicants/all">All applicants</a>
+    <a href="#">About</a>
+<form action="/logout" method=post>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input class="logout" type="submit" value="Logout">
+</form>
+</div>
+<div class="userInfo" sec:authorize="isAuthenticated()">Welcome to Applicant Portal <p sec:authentication="name"></p></div>
+
+<p th:text="${user.getFirstName()}">VALUE</p>
+<p th:text="${'Email: ' + user.getEmail()}">VALUE</p>
+<p th:text="${user.getId()}">VALUE</p>
+</body>
+</html>
