@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/registration.css}" type="text/css">
+    <title>Add applicant</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/auth/registration}" th:object="${user}">
+    <div class="container">
+        <h1>Registration</h1>
+        <p>Please fill in this form to create an account.</p>
+        <hr>
+        <label for="username">Enter username: </label>
+        <input type="text" th:field="*{username}" id="username"/>
+        <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+        <br/>
+        <label for="email">Enter email: </label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+        <br/>
+        <label for="firstName">Enter firstname: </label>
+        <input type="text" th:field="*{firstName}" id="firstName"/>
+        <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">FirstName error</div>
+        <br/>
+        <label for="lastName">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="lastName"/>
+        <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">LastName Error</div>
+        <br/>
+        <label for="birthYear">Enter birth year: </label>
+        <input type="text" th:field="*{birthYear}" id="birthYear"/>
+        <div style="color:red" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}">Birth year Error
+        </div>
+        <br/>
+        <label for="password">Enter password: </label>
+        <input type="password" th:field="*{password}" id="password"/>
+        <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+        <br/>
+        <input type="submit" class="registerbtn" value="Sign up!"/>
+        <div class="container signin">
+            <p>Already have an account? <a href="/auth/login">Sign in</a>.</p>
+        </div>
+    </div>
+</body>
+</html>
