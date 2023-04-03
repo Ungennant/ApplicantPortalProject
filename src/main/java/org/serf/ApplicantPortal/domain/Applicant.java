@@ -138,14 +138,6 @@ public class Applicant {
         return totalRate;
     }
 
-    public Boolean getApplied() {
-        return isApplied;
-    }
-
-    public void setApplied(Boolean applied) {
-        isApplied = applied;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

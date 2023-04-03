@@ -8,7 +8,7 @@
 <body>
 <div class="topnav">
     <a href="/cabinet">Cabinet</a>
-    <a href="/applicants/new">New application</a>
+    <a href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">New application</a>
     <a class="active" href="/applicants/all">All applicants</a>
     <a href="#">About</a>
     <form action="/logout" method=post>

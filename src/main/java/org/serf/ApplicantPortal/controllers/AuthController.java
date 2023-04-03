@@ -44,7 +44,7 @@ public class AuthController {
         if(bindingResult.hasErrors())
             return "/auth/registration";
 
-        registrationService.register(user);
+        registrationService.saveUser(user);
 
         return "redirect:/auth/login";
     }

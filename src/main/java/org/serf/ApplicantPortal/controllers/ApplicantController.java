@@ -50,7 +50,7 @@ public class ApplicantController {
 
         applicant.setProfileImage(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
         applicant.setImageName(multipartFile.getOriginalFilename());
-        applicantService.registerApplicant(applicant);
+        applicantService.saveApplicant(applicant);
         return "redirect:/applicants/all";
     }
 
@@ -65,5 +65,21 @@ public class ApplicantController {
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("applicant", applicantService.getApplicantById(id).get());
         return "applicants/show";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("applicant", applicantService.getApplicantById(id).get());
+        return "applicants/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String update(@ModelAttribute("applicant") Applicant applicant, BindingResult bindingResult,
+                         @PathVariable("id") int id) {
+        if (bindingResult.hasErrors())
+            return "applicants/edit";
+
+        applicantService.updateApplicantById(id, applicant);
+        return "redirect:/applicants/show";
     }
 }

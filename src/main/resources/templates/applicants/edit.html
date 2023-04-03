@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/new.css}" type="text/css">
-    <title>New applicant</title>
+    <title>Edit application</title>
 </head>
 <body>
 <div class="topnav">
@@ -16,7 +15,7 @@
         <input class="logout" type="submit" value="Logout">
     </form>
 </div>
-<form th:method="POST" th:action="@{/applicants}" th:object="${applicant}" enctype="multipart/form-data">
+<form th:method="POST" th:action="@{/applicants/{id}(id=${applicant.getId()})}" th:object="${applicant}" enctype="multipart/form-data">
     <div class="container">
         <h1>Add applicant</h1>
         <p>Please fill in this form to add Applicant.</p>
@@ -45,9 +44,8 @@
         <label for="profileImage">Upload photo: </label>
         <input type="file" name="image" accept="image/png, image/jpeg" id="profileImage" />
         <br/>
-        <input type="submit" class="registerbtn" value="Add applicant"/>
+        <input type="submit" class="registerbtn" value="Update"/>
     </div>
-
 </form>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <body>
 <div class="topnav">
     <a href="/cabinet">Cabinet</a>
-    <a class="active" href="/applicants/new">New application</a>
+    <a class="active" href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">New application</a>
     <a href="/applicants/all">All applicants</a>
     <a href="#">About</a>
     <form action="/logout" method=post>
@@ -30,9 +30,12 @@
         <p th:text="${applicant.getBirthYear()}">VALUE</p>
         <h4>Chosen faculty:</h4>
         <p th:text="${applicant.getFaculty().getFacultyName()}">VALUE</p>
+        <br/>
+        <a th:href="@{/applicants/{id}(id=${applicant.getId()})}" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">Edit application</a>
     </div>
 
     <div class="right-bar">
+        <div class="rate-form">
         <h1 th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Rate update form</h1>
         <form th:object="${applicant}" method="POST" th:action="@{/applicants/marks}">
             <div th:each="subject, subjectIndex : ${applicant.getFaculty().getSubjects()}">
@@ -45,7 +48,9 @@
             <button type="submit" th:text="Submit"
                     th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"></button>
         </form>
+        </div>
     </div>
+
 </div>
 </body>
 </html>
