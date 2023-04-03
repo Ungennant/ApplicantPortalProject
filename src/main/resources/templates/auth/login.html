@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+<form name="f" method="post" action="/process_login">
+    <h1>Login</h1>
+    <p>Please fill in this form to sign in.</p>
+    <hr>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <label for="username">Username: </label>
+    <input type="text" name="username" id="username"/>
+    <br/>
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password"/>
+    <br/>
+    <input class="registerbtn" type="submit" value="Login"/>
+    <div class="container signup">
+        <p>Don't have an account?<a href="/auth/registration">Sign up</a></p>
+    </div>
+
+    <div th:if="${param.error}" style="color: red">
+        Wrong username or password.
+    </div>
+</form>
+</div>
+</body>
+</html>
