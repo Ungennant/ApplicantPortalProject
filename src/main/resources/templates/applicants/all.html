@@ -23,6 +23,8 @@
         <th>Last name</th>
         <th>Age</th>
         <th>Faculty</th>
+        <th>Total rate</th>
+        <th>Applied</th>
     </tr>
     <tr th:each="applicant : ${applicants}">
         <td><a th:href="@{/applicants/{id}(id=${applicant.getId()})}"
@@ -31,6 +33,8 @@
                th:text="${applicant.getLastName()}">lastname</a></td>
         <td><a th:text="${applicant.getBirthYear()}">birth year</a></td>
         <td><a th:text="${applicant.getFaculty().getFacultyName()}">faculty</a></td>
+        <td><a th:text="${applicant.totalRate}">rate</a></td>
+        <td><a th:text="${applicant.getIsApplied()}">isApplied</a></td>
     </tr>
 </table>
 </body>

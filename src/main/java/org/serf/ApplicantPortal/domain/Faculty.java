@@ -21,6 +21,8 @@ public class Faculty {
     @Convert(converter = SubjectsConverter.class)
     @Column(name = "subjects")
     private List<ESubject> subjects;
+    @OneToMany(mappedBy = "faculty")
+    private List<Applicant> applicants;
 
     public Faculty() {
     }
@@ -66,5 +68,13 @@ public class Faculty {
 
     public void setSubjects(List<ESubject> subjects) {
         this.subjects = subjects;
+    }
+
+    public List<Applicant> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(List<Applicant> applicants) {
+        this.applicants = applicants;
     }
 }

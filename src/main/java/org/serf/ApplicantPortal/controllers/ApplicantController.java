@@ -1,9 +1,9 @@
 package org.serf.ApplicantPortal.controllers;
 
 import org.serf.ApplicantPortal.domain.Applicant;
-import org.serf.ApplicantPortal.domain.Subject;
 import org.serf.ApplicantPortal.services.ApplicantService;
 import org.serf.ApplicantPortal.services.FacultyService;
+import org.serf.ApplicantPortal.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
 
 
 @Controller
@@ -22,11 +21,14 @@ public class ApplicantController {
 
     private final ApplicantService applicantService;
     private final FacultyService facultyService;
+    private final SubjectService subjectService;
 
     @Autowired
-    public ApplicantController(ApplicantService applicantService, FacultyService facultyService) {
+    public ApplicantController(ApplicantService applicantService, FacultyService facultyService, SubjectService subjectService) {
         this.applicantService = applicantService;
         this.facultyService = facultyService;
+
+        this.subjectService = subjectService;
     }
 
     @GetMapping("/all")
@@ -54,10 +56,8 @@ public class ApplicantController {
 
     @PostMapping("/marks")
     public String updateApplicantSubjects(@ModelAttribute("applicant") Applicant applicant, BindingResult bindingResult) {
-        Applicant applicantForUpdate = applicantService.getApplicantById(applicant.getId()).get();
-        applicantForUpdate.setSubjects(applicant.getSubjects());
-        applicantService.registerApplicant(applicantForUpdate);
-        return null;
+        applicantService.updateApplicantSubjects(applicant);
+        return "redirect:/applicants/all";
     }
 
 

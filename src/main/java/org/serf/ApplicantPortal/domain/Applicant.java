@@ -4,6 +4,7 @@ import org.serf.ApplicantPortal.domain.enums.ESubject;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "applicant")
@@ -28,11 +29,13 @@ public class Applicant {
     private String profileImage;
     @Column(name = "image_name")
     private String imageName;
+    @Column (name = "is_applied")
+    private Boolean isApplied;
 
     public Applicant() {
     }
 
-    public Applicant(Integer id, String firstName, String lastName, int birthYear, Faculty faculty, List<Subject> subjects, String profileImage, String imageName) {
+    public Applicant(Integer id, String firstName, String lastName, int birthYear, Faculty faculty, List<Subject> subjects, String profileImage, String imageName, Boolean isApplied) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,9 +44,10 @@ public class Applicant {
         this.subjects = subjects;
         this.profileImage = profileImage;
         this.imageName = imageName;
+        this.isApplied = isApplied;
     }
 
-    public Applicant(String firstName, String lastName, int birthYear, Faculty faculty, List<Subject> subjects, String profileImage, String imageName) {
+    public Applicant(String firstName, String lastName, int birthYear, Faculty faculty, List<Subject> subjects, String profileImage, String imageName, Boolean isApplied) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthYear = birthYear;
@@ -51,6 +55,7 @@ public class Applicant {
         this.subjects = subjects;
         this.profileImage = profileImage;
         this.imageName = imageName;
+        this.isApplied = isApplied;
     }
 
     public Integer getId() {
@@ -117,6 +122,43 @@ public class Applicant {
         this.imageName = imageName;
     }
 
+    public Boolean getIsApplied() {
+        return isApplied;
+    }
+
+    public void setIsApplied(Boolean isApplied) {
+        this.isApplied = isApplied;
+    }
+
+    public Integer getTotalRate() {
+        int totalRate = 0;
+        for (Subject subject : subjects) {
+            totalRate += subject.getRate();
+        }
+        return totalRate;
+    }
+
+    public Boolean getApplied() {
+        return isApplied;
+    }
+
+    public void setApplied(Boolean applied) {
+        isApplied = applied;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Applicant)) return false;
+        Applicant applicant = (Applicant) o;
+        return birthYear == applicant.birthYear && Objects.equals(id, applicant.id) && Objects.equals(firstName, applicant.firstName) && Objects.equals(lastName, applicant.lastName) && Objects.equals(faculty, applicant.faculty) && Objects.equals(subjects, applicant.subjects) && Objects.equals(profileImage, applicant.profileImage) && Objects.equals(imageName, applicant.imageName) && Objects.equals(isApplied, applicant.isApplied);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, birthYear, faculty, subjects, profileImage, imageName, isApplied);
+    }
+
     @Override
     public String toString() {
         return "Applicant{" +
@@ -125,7 +167,6 @@ public class Applicant {
                 ", lastName='" + lastName + '\'' +
                 ", birthYear=" + birthYear +
                 ", faculty=" + faculty +
-                ", subjects=" + subjects +
                 ", profileImage='" + profileImage + '\'' +
                 ", imageName='" + imageName + '\'' +
                 '}';
