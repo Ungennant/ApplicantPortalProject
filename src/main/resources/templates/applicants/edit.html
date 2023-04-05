@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit application</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/cabinet">Cabinet</a>
+    <a class="active" href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">New application</a>
+    <a href="/applicants/all">All applicants</a>
+    <a href="#">About</a>
+    <form action="/logout" method=post>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="logout" type="submit" value="Logout">
+    </form>
+</div>
+<form th:method="POST" th:action="@{/applicants/{id}(id=${applicant.getId()})}" th:object="${applicant}" enctype="multipart/form-data">
+    <div class="container">
+        <h1>Add applicant</h1>
+        <p>Please fill in this form to add Applicant.</p>
+        <hr>
+        <label for="firstName">Enter firstname: </label>
+        <input type="text" th:field="*{firstName}" id="firstName"/>
+        <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">FirstName error</div>
+        <br/>
+        <label for="lastName">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="lastName"/>
+        <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">LastName Error</div>
+        <br/>
+        <label for="birthYear">Enter birth year: </label>
+        <input type="text" th:field="*{birthYear}" id="birthYear"/>
+        <div style="color:red" th:if="${#fields.hasErrors('birthYear')}" th:errors="*{birthYear}">Birth year Error
+        </div>
+        <br/>
+        <select th:field="*{faculty}" id="faculty" name="faculty">
+            <option value="">Select faculty</option>
+            <option
+                    th:each="faculty : ${faculties}"
+                    th:value="${faculty.getId}"
+                    th:text="${faculty.getFacultyName}"></option>
+        </select>
+        <br/>
+        <label for="profileImage">Upload photo: </label>
+        <input type="file" name="image" accept="image/png, image/jpeg" id="profileImage" />
+        <br/>
+        <input type="submit" class="registerbtn" value="Update"/>
+    </div>
+</form>
+</body>
+</html>

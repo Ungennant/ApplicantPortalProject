@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/show.css}" type="text/css">
+    <title>Applicant info</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/cabinet">Cabinet</a>
+    <a class="active" href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">New application</a>
+    <a href="/applicants/all">All applicants</a>
+    <a href="#">About</a>
+    <form action="/logout" method=post>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="logout" type="submit" value="Logout">
+    </form>
+</div>
+<div class="wrapper">
+    <div class="left-bar">
+        <h4>Profile image:</h4>
+        <img class="profile-img" th:src="${'data:image/jpeg;charset=utf-8;base64,' + applicant.getProfileImage()}"/>
+        <h4>Application ID:</h4>
+        <p th:text="${applicant.getId()}">VALUE</p>
+        <h4>Applicant name:</h4>
+        <p th:text="${applicant.getFirstName()}">VALUE</p>
+        <h4>Applicant surname:</h4>
+        <p th:text="${applicant.getLastName()}">VALUE</p>
+        <h4>Applicant birth year:</h4>
+        <p th:text="${applicant.getBirthYear()}">VALUE</p>
+        <h4>Chosen faculty:</h4>
+        <p th:text="${applicant.getFaculty().getFacultyName()}">VALUE</p>
+        <br/>
+        <a th:href="@{/applicants/{id}(id=${applicant.getId()})}" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">Edit application</a>
+    </div>
+
+    <div class="right-bar">
+        <div class="rate-form">
+        <h1 th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Rate update form</h1>
+        <form th:object="${applicant}" method="POST" th:action="@{/applicants/marks}">
+            <div th:each="subject, subjectIndex : ${applicant.getFaculty().getSubjects()}">
+                <label th:text="${subject}" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"></label>
+                <input type="hidden" th:name="subjects[__${subjectIndex.index}__].name" th:value="${subject.name}"/>
+                <input type="text" th:field="*{subjects[__${subjectIndex.index}__].rate}"
+                       th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"/>
+            </div>
+            <input type="hidden" th:name="applicant" th:value="${applicant.id}"/>
+            <button type="submit" th:text="Submit"
+                    th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"></button>
+        </form>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

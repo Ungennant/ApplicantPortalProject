@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/all.css}" type="text/css">
+    <title>Applicants list</title>
+</head>
+<body>
+<div class="topnav">
+    <a href="/cabinet">Cabinet</a>
+    <a href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">New application</a>
+    <a class="active" href="/applicants/all">All applicants</a>
+    <a href="#">About</a>
+    <form action="/logout" method=post>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="logout" type="submit" value="Logout">
+    </form>
+</div>
+<h1>Applicants list:</h1>
+<table>
+    <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Age</th>
+        <th>Faculty</th>
+        <th>Total rate</th>
+        <th>Applied</th>
+    </tr>
+    <tr th:each="applicant : ${applicants}">
+        <td><a th:href="@{/applicants/{id}(id=${applicant.getId()})}"
+               th:text="${applicant.getFirstName()}">firstname</a></td>
+        <td><a th:href="@{/applicants/{id}(id=${applicant.getId()})}"
+               th:text="${applicant.getLastName()}">lastname</a></td>
+        <td><a th:text="${applicant.getBirthYear()}">birth year</a></td>
+        <td><a th:text="${applicant.getFaculty().getFacultyName()}">faculty</a></td>
+        <td><a th:text="${applicant.totalRate}">rate</a></td>
+        <td><a th:text="${applicant.getIsApplied()}">isApplied</a></td>
+    </tr>
+</table>
+</body>
+</html>
