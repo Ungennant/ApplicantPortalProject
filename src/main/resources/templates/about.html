@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/all.css}" type="text/css">
+    <title>About</title>
+</head>
+<body>
+<div class="container">
+<div class="topnav">
+    <a href="/cabinet" th:text="#{cabinet.homelink}">Cabinet</a>
+    <a href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" th:text="#{cabinet.createlink}">New application</a>
+    <a href="/applicants/all" th:text="#{cabinet.alllink}">All applicants</a>
+    <a class="active" href="/about" th:text="#{cabinet.aboutlink}">About</a>
+    <form action="/logout" method=post>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="logout" type="submit" value="Logout" th:value="#{cabinet.logout}">
+    </form>
+</div>
+<h1 th:text="#{about.title}">LOGOS IT ACADEMY - JAVA DEVELOPER COURSE - INITIAL PROJECT</h1>
+    <h2 th:text="#{about.subtitle}">Applicant Portal System</h2>
+<ul>
+    <li th:text="#{about.p1}">The applicant registers for one of the faculties with a fixed enrollment plan.</li>
+    <li th:text="#{about.p2}">The applicant enters their scores from the corresponding subjects and their certificate.</li>
+    <li th:text="#{about.p3}">The system calculates the total scores and determines the applicants who have been admitted to the educational institution.</li>
+</ul>
+</div>
+</body>
+</html>

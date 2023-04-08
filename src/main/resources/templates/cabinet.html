@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/cabinet.css}" type="text/css">
+    <title>User Cabinet</title>
+</head>
+<body>
+<div class="topnav">
+    <a class="active" href="/cabinet" th:text="#{cabinet.homelink}">Cabinet</a>
+    <a href="/applicants/new" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}" th:text="#{cabinet.createlink}">New application</a>
+    <a href="/applicants/all" th:text="#{cabinet.alllink}">All applicants</a>
+    <a href="/about" th:text="#{cabinet.aboutlink}">About</a>
+<form action="/logout" method=post>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input class="logout" type="submit" value="Logout" th:value="#{cabinet.logout}">
+</form>
+</div>
+
+<h1 th:text="#{cabinet.userinfo}">User info:</h1>
+<h2 th:text="#{cabinet.firstname}">First name:</h2>
+<p th:text="${user.getFirstName()}">VALUE</p>
+<h2 th:text="#{cabinet.lastname}">Last name:</h2>
+<p th:text="${user.getLastName()}">VALUE</p>
+<h2 th:text="#{cabinet.birthyear}">Birth year:</h2>
+<p th:text="${user.getBirthYear()}">VALUE</p>
+<h2 th:text="#{cabinet.email}">Email:</h2>
+<p th:text="${user.getEmail()}">VALUE</p>
+<h2 th:text="#{cabinet.id}">ID:</h2>
+<p th:text="${user.getId()}">VALUE</p>
+</body>
+</html>

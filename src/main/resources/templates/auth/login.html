@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:encoding="UTF-8">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+    <title th:text="#{login.title}">Login page</title>
+</head>
+<body>
+
+<div class="container">
+
+    <select id="locales">
+        <option value="en" th:text="#{lang.en}"></option>
+        <option value="uk" th:text="#{lang.uk}"></option>
+    </select>
+
+    <form name="f" method="post" action="/process_login">
+        <h1 th:text="#{login.title}">Login</h1>
+        <p th:text="#{login.subtitle}">Please fill in this form to sign in.</p>
+        <hr>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <label for="username" th:text="#{login.username}">Username: </label>
+        <input type="text" name="username" id="username"/>
+        <br/>
+        <label for="password" th:text="#{login.password}">Password: </label>
+        <input type="password" name="password" id="password"/>
+        <br/>
+        <input class="registerbtn" type="submit" value="Login" th:value="#{login.loginbtn}"/>
+        <div class="container signup">
+            <span th:text="#{login.description}">Don't have an account?</span> <a th:href="@{/auth/registration}"
+                                                                                  th:text="#{login.linkdesription}">Sign
+            up</a>
+        </div>
+
+        <div th:if="${param.error}" style="color: red" th:text="#{login.error}">
+            Wrong username or password.
+        </div>
+    </form>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let selectedLanguage = urlParams.get('lang') || localStorage.getItem('selectedLanguage');
+        if (selectedLanguage) {
+            $("#locales").val(selectedLanguage);
+        }
+        $("#locales").change(function () {
+            let selectedOption = $(this).val();
+            if (selectedOption) {
+                localStorage.setItem('selectedLanguage', selectedOption);
+                window.location.replace('?lang=' + selectedOption);
+            }
+        });
+    });
+</script>
+</body>
+</html>
